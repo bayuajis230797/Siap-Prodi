@@ -1,0 +1,47 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Memaksa HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} ^siapprodi\.siharkatnegeri\.com$ [NC]
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Hilangkan index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+# Matikan Directory Listing
+Options -Indexes
+
+# Lindungi file konfigurasi dan log
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Mencegah akses langsung ke file sensitif (Composer, SQL, Backup, Log, dll)
+<FilesMatch "(?i)\.(sql|bak|old|save|tar\.gz|zip|md|lock|json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Blokir composer, vendor, database dump di root
+<IfModule mod_rewrite.c>
+    RewriteRule ^composer\.(json|lock)$ - [F,L]
+    RewriteRule ^vendor/ - [F,L]
+    RewriteRule ^database\.sql$ - [F,L]
+    RewriteRule ^application/ - [F,L]
+</IfModule>
+
+# Tambahkan Security Headers
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Header always set Content-Security-Policy "default-src 'self';" # CSP bisa merusak asset CDN, aktifkan dengan hati-hati.
+</IfModule>

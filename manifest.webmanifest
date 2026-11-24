@@ -1,0 +1,20 @@
+{
+  "name": "SI-HARKAT - Sistem Informasi Program Studi",
+  "short_name": "SI-HARKAT",
+  "description": "Layanan akademik Program Studi Sistem Informasi: jadwal, bimbingan, PKL, Proposal TA, Skripsi, dan lainnya.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#5c1228",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "pwa/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "pwa/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "pwa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
